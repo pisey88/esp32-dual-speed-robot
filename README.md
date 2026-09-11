@@ -37,22 +37,13 @@ The joystick tilt amount is also used to proportionally scale the applied speed 
 - **Dead zone** (`JOY_DEADZONE = 300`) is applied around the joystick's center reading (`2048`) so small sensor noise near the resting position doesn't trigger unwanted movement.
 - The joystick's push distance beyond the dead zone is scaled (`scaleByJoystick()`) into a percentage of the current max speed, then converted from a 0–100 percentage into a 0–255 PWM duty cycle (`mapSpeed()`) before being written to the motors.
 
-
-## How to Build & Upload
-1. Open `src/dual_speed_robot.ino` in the Arduino IDE.
-2. Install the **ESP32 board package** (Boards Manager) if not already installed.
-3. Select your ESP32 board under **Tools → Board**.
-4. Select the correct COM port under **Tools → Port**.
-5. Click **Upload**.
-6. Open **Serial Monitor** at **115200 baud** to view direction and speed debug output.
-
 ## Flowchart
-See [`docs/flowchart.jpg`](docs/flowchart.jpg) for the full control-logic diagram, covering: start, reading joystick/button inputs, updating speeds, clamping limits, dead zone check, motion decision, applying motor PWM, and looping.
+![Alternative description text](<img width="830" height="1058" alt="esp32-dual-speed-robot" src="https://github.com/user-attachments/assets/79caea1c-169e-4ab0-aef3-2ab2fe9d3ce8" />
+screenshot.png)
 
 ## Demo Video
-Watch the demonstration here: [Demo Video](PASTE_YOUR_DRIVE_LINK)
+Watch the demonstration here: [Demo Video]((https://drive.google.com/drive/folders/1PSBLmlOTMLzpqGlisSeR-QnlbMvUUmb0?usp=drive_link))
 
-## Explanation
 ## Explanation
 
 ### 1. Purpose of Using Two Independent Speeds
@@ -65,15 +56,3 @@ The joystick's analog output is never perfectly stable at its resting position �
 The four push buttons adjust the two speed variables in fixed steps of `±5` (`SPEED_STEP = 5`). The UP/DOWN buttons increase or decrease `forwardSpeed`, while LEFT/RIGHT increase or decrease `rotationSpeed`. Each button press is edge-detected — meaning the code only registers a change the instant the button transitions from unpressed to pressed (`HIGH` to `LOW`), rather than continuously for as long as it's held down. This is combined with a 150 ms debounce timer (`DEBOUNCE_MS`) to filter out the rapid electrical bouncing that occurs when a mechanical button is pressed, ensuring one physical press results in exactly one `±5` step rather than several unintended increments. After each adjustment, `clampSpeed()` keeps the result within the valid `0–100` range.
 
 Beyond the button-based adjustment, this implementation also makes the joystick's tilt distance matter: rather than always driving at the full `forwardSpeed`/`rotationSpeed` value the moment the dead zone is crossed, the function `scaleByJoystick()` scales the actual applied speed proportionally to how far the stick is pushed, using the button-set value as a maximum ceiling. A light push produces a small fraction of the max speed; a full push approaches the full max speed. This adds finer, more analog-like control on top of the required digital button adjustment.
-
-### 4. Flowchart Walkthrough
-The program follows this loop, matching the flowchart:
-1. **Start** — initialization of pins and PWM channels.
-2. **Read joystick X, Y** — analog readings from GPIO 34 and 35.
-3. **Read button states** — digital readings from the four button GPIOs.
-4. **Update forwardSpeed / rotationSpeed** — button presses adjust the relevant speed by ±5, using edge detection and debouncing.
-5. **Clamp speeds to 0–100** — ensures speeds always stay within valid bounds.
-6. **Check dead zone** — if the joystick is within ±300 of center, the robot stops.
-7. **Decide motion** — if outside the dead zone, the Y-axis is checked first (forward/backward take priority); if Y is within the dead zone but X is not, the robot turns left or right instead.
-8. **Apply motor speeds** — the selected direction's speed is scaled by joystick tilt (`scaleByJoystick()`), converted from a percentage to an 8-bit PWM value (`mapSpeed()`), and written to all four motors via `ledcWrite()`.
-9. **Loop back** — the entire process repeats continuously inside `loop()`, giving continuous real-time control.
