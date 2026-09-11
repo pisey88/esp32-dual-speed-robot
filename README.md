@@ -42,8 +42,7 @@ The joystick tilt amount is also used to proportionally scale the applied speed 
 screenshot.png)
 
 ## Demo Video
-Watch the demonstration here: [Demo Video]((https://drive.google.com/drive/folders/1PSBLmlOTMLzpqGlisSeR-QnlbMvUUmb0?usp=drive_link))
-
+Watch the demonstration here: [Demo Video]([https://example.com](https://drive.google.com/file/d/1k86sHDjG1G8f6ioAJM3hWn8bY2uWsH-q/view?usp=sharing))
 ## Explanation
 
 ### 1. Purpose of Using Two Independent Speeds
