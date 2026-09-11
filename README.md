@@ -38,11 +38,11 @@ The joystick tilt amount is also used to proportionally scale the applied speed 
 - The joystick's push distance beyond the dead zone is scaled (`scaleByJoystick()`) into a percentage of the current max speed, then converted from a 0–100 percentage into a 0–255 PWM duty cycle (`mapSpeed()`) before being written to the motors.
 
 ## Flowchart
-![Alternative description text](<img width="830" height="1058" alt="esp32-dual-speed-robot" src="https://github.com/user-attachments/assets/79caea1c-169e-4ab0-aef3-2ab2fe9d3ce8" />
-screenshot.png)
+(<img width="830" height="1058" alt="esp32-dual-speed-robot" src="https://github.com/user-attachments/assets/79caea1c-169e-4ab0-aef3-2ab2fe9d3ce8" />
+
 
 ## Demo Video
-Watch the demonstration here: [Demo Video]([https://example.com](https://drive.google.com/file/d/1k86sHDjG1G8f6ioAJM3hWn8bY2uWsH-q/view?usp=sharing))
+Watch the demonstration here: ([Demo Video](https://drive.google.com/file/d/1k86sHDjG1G8f6ioAJM3hWn8bY2uWsH-q/view?usp=sharing))
 ## Explanation
 
 ### 1. Purpose of Using Two Independent Speeds
